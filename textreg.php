@@ -182,7 +182,7 @@ function handleFormPosting() {
   $result = $db->query($query) or mydie("Error searching the database");
   while ( $row = $result->fetchArray() )
     // if the number is not in the db, then this will never happen, as there will be zero results
-    mydie("That number is already in the database");
+    mydie("That number is already in the database ($number), and cannot be added again");
 
   // enter number into DB
   $query = "insert into numbers values (null, '" . mysql_escape_string($_POST['name']) . 
@@ -240,6 +240,8 @@ function printDB() {
   $addresses = array();
   $enabled = array();
   $disabled = array();
+  $numenabled = 0;
+  $numdisabled = 0;
   while ( $row = $result->fetchArray() ) {
     $address = $row['number'] . '@' . $providers[$row['provider']]['email'];
     if ( $row['valid'] )
@@ -250,10 +252,13 @@ function printDB() {
       htmlentities($providers[$row['provider']]['name']) . "</td><td>" . 
       $row['thedate'] . "</td><td><a href=\"textreg.php?toggle=" . 
       $row['id'] . "&amp;password=" . $_GET['password'] . "\">";
-    if ( $row['valid'] )
+    if ( $row['valid'] ) {
       $enabled[] = $tr . "disable</a></tr>\n";
-    else
+      $numenabled++;
+    } else {
       $disabled[] = $tr . "enable</a></tr>\n";
+      $numdisabled++;
+    }
   }
 
   $th = "<tr><td><b>Name</b></td>" .
@@ -274,9 +279,9 @@ function printDB() {
 <h2>All enabled email addresses in a comma-separated format</h2>
 <p>You can cut-and-paste the next line into your email client</p>
 <p>$addresses</p>
-<p>&nbsp;</p><h2>All enabled email addresses in a table format</h2>
+<p>&nbsp;</p><h2>All enabled email addresses in a table format ($numenabled)</h2>
 <table border='1'>$tableenabled</table>
-<p>&nbsp;</p><h2>All disabled email addresses in a table format</h2>
+<p>&nbsp;</p><h2>All disabled email addresses in a table format ($numdisabled)</h2>
 <table border='1'>$tabledisabled</table>
 <p>&nbsp;</p><p><a href='textreg.php'>Return to the main page</a></p>
 </div></div>
@@ -402,14 +407,14 @@ EOT;
 <p>Not really.  Anybody can email to a mobile phone's text message address already; this doesn't enable that functionality, it only uses it.  It is still the case, in the US at least, that commercial messages to cell phones are illegal.</p>
 
 <h3>Can I add a mobile service provider?</h3>
-<p>As long as the mobile provider has this email-to-text functionality, you certainly can.  One option is to directly edit config.php (the <code>providers</code> array).  Alternatively, you can submit the provider's information to the maintainer of this source code.  You can do this by submitting an <a href="
+<p>As long as the mobile provider has this email-to-text functionality, you certainly can.  The easiest way is to <a href="mailto:$retemail">email</a> and request that it be added.</p><p>If you know your way around computer programs, you can directly edit config.php (the <code>providers</code> array).  Alternatively, you can submit the provider's information to the maintainer of this source code.  You can do this by submitting an <a href="
 https://github.com/aaronbloomfield/textreg/issues">issue to the github repo</a> -- just fill out the form, and include as much information about the provider as you can.  If you know how to do so, you can also submit a <a href="https://help.github.com/articles/using-pull-requests/">pull request</a> to the <a href="https://github.com/aaronbloomfield/textreg">github repo</a>.</p>
 
 <h3>Who wrote this script?</h3>
 <p><a href="http://www.cs.virginia.edu/~asb">Aaron Bloomfield</a>.  The form design was by <a href="http://www.phpform.org">pForm</a>.</p>
 
 <h3>Can I use it for my organization?</h3>
-<p>Sure -- it's freely available at <a href="https://github.com/aaronbloomfield/textreg">https://github.com/aaronbloomfield/textreg</a>.  You can view the readme on that page, with installation instructions.</p>
+<p>Sure -- it's freely available at <a href="https://github.com/aaronbloomfield/textreg">https://github.com/aaronbloomfield/textreg</a>.  You can view the readme on that page, which includes installation instructions.</p>
 
 <p>&nbsp;</p><p><a href="textreg.php">Return to the main page</a>.</p>
 </div></div>
