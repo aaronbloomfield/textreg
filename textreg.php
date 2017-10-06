@@ -8,7 +8,7 @@
 
 // is sqlite3 installed?
 if ( !extension_loaded("sqlite3") )
-  die("You must install the PHP sqlite3 extension; see install.md for details");
+  die("You must install the PHP sqlite3 extension; see readme.md for details");
 
 // load the config file
 if ( !file_exists('config.php') )

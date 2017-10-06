@@ -14,7 +14,7 @@ This code is released under the [MIT license](LICENSE)
 This requires a LAMP server that runs PHP.
 
 1. Clone this git repo: `git clone https://github.com/aaronbloomfield/textreg`
-2. Ensure that the PHP sqlite3 extension is installed.  On an Ubuntu machine, this is the `php5-sqlite` package.  If that extension is not installed, then the script will indicate so when loaded.
+2. Ensure that the PHP sqlite3 extension is installed.  On an 14.04 Ubuntu machine, this is the `php5-sqlite` package; on 16.04, that's the `php7.0-sqlite3` package (followed by `phpenmod sqlite3` and restarting apache2).  If that extension is not installed, then the script will indicate so when loaded.
 3. Create a logo file as `logo.png`, which (if present) will be displayed at the top of each page.
 3. Edit the `config.php` file.  You must modify the first section of values.  The second section of values might need modification.  The last section likely will not need modification.  That file explains what each configuration option means.
 4. Ensure that the database file (numbers.db is the default name) and the log file (textreg.log) are writable by the web server user.  If you are familiar with file permissions, you may want to ensure that others cannot read those files.
